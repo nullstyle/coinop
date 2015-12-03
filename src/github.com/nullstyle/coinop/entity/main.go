@@ -12,7 +12,8 @@ type Client struct {
 
 // User represents a single user of a system.
 type User struct {
-	ID        int64
+	ID UserID
+
 	CreatedAt time.Time
 }
 
@@ -21,3 +22,6 @@ type User struct {
 func (u *User) IsNew() bool {
 	return u.ID == 0
 }
+
+// UserID represents a durable identifier for an user
+type UserID int64

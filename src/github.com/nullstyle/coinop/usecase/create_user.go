@@ -27,7 +27,7 @@ type CreateUser struct {
 }
 
 // Exec runs the use case.
-func (kase *CreateUser) Exec() (uid int64, err error) {
+func (kase *CreateUser) Exec() (uid entity.UserID, err error) {
 	u := entity.User{
 		CreatedAt: time.Now(),
 	}

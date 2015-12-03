@@ -14,7 +14,7 @@ var _ = Describe("CreateUser", func() {
 	var (
 		subject CreateUser
 		repo    UserRepository
-		output  int64
+		output  entity.UserID
 		err     error
 	)
 
@@ -29,7 +29,7 @@ var _ = Describe("CreateUser", func() {
 		})
 
 		It("outputs 1", func() {
-			Expect(output).To(Equal(int64(1)))
+			Expect(output).To(Equal(entity.UserID(1)))
 			Expect(err).To(BeNil())
 		})
 
@@ -50,7 +50,7 @@ var _ = Describe("CreateUser", func() {
 			}
 		})
 		It("outputs  the next available id", func() {
-			Expect(output).To(Equal(int64(3)))
+			Expect(output).To(Equal(entity.UserID(3)))
 			Expect(err).To(BeNil())
 		})
 

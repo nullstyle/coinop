@@ -20,7 +20,7 @@ func (repo *mockUserRepository) CreateUser(user *entity.User) error {
 		return repo.Err
 	}
 
-	user.ID = int64(len(repo.Users) + 1)
+	user.ID = entity.UserID(len(repo.Users) + 1)
 	repo.Users = append(repo.Users, *user)
 	return nil
 }
