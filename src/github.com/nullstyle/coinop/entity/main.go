@@ -4,6 +4,17 @@ import (
 	"time"
 )
 
+// Account represents a single named account.
+type Account struct {
+	ID   AccountID
+	Name string
+
+	CreatedAt time.Time
+}
+
+// AccountID represents a durable identifier for an account
+type AccountID int64
+
 // Client represents a single integrator with the coinop service, for example an
 // API client, a gui client or the cli client.
 type Client struct {
