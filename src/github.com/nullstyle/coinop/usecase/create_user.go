@@ -27,23 +27,26 @@ type CreateUser struct {
 }
 
 // Exec runs the use case.
-func (kase *CreateUser) Exec() (int64, error) {
+func (kase *CreateUser) Exec() (uid int64, err error) {
 	u := entity.User{
 		CreatedAt: time.Now(),
 	}
 
-	err := kase.DB.CreateUser(&u)
+	err = kase.DB.CreateUser(&u)
 	if err != nil {
 		err = &CreateUserError{Step: "repo", Child: err}
+		return
 	}
 
 	if u.IsNew() {
 		// TODO: add some further explanation that the repo failed to assign
 		// and ID.
 		err = &CreateUserError{Step: "repo"}
+		return
 	}
 
-	return u.ID, err
+	uid = u.ID
+	return
 }
 
 // CreateUserError is emitted when
