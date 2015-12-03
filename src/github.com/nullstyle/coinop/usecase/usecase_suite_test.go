@@ -1,4 +1,4 @@
-package entity_test
+package usecase_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestEntity(t *testing.T) {
+func TestUsecase(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Entity Suite")
+	RunSpecs(t, "Usecase Suite")
 }

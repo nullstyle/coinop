@@ -40,6 +40,13 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/golang/protobuf/proto",
+			"repository": "https://github.com/golang/protobuf",
+			"revision": "221834dcb89c96e4b057ed8bb878bfe569dfacf4",
+			"branch": "master",
+			"path": "/proto"
+		},
+		{
 			"importpath": "github.com/inconshreveable/mousetrap",
 			"repository": "https://github.com/inconshreveable/mousetrap",
 			"revision": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75",
@@ -87,6 +94,18 @@
 			"revision": "0ed230ab0856542e23b068fa253a67f57f2d01eb",
 			"branch": "master",
 			"path": "/xdr3"
+		},
+		{
+			"importpath": "github.com/onsi/ginkgo",
+			"repository": "https://github.com/onsi/ginkgo",
+			"revision": "7f8ab55aaf3b86885aa55b762e803744d1674700",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/onsi/gomega",
+			"repository": "https://github.com/onsi/gomega",
+			"revision": "2152b45fa28a361beba9aab0885972323a444e28",
+			"branch": "master"
 		},
 		{
 			"importpath": "github.com/russross/blackfriday",

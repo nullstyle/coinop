@@ -1,16 +1,23 @@
 package entity
 
 import (
-	"github.com/stellar/go-stellar-base/xdr"
+	"time"
 )
 
-type Account struct {
-	ID       uint64
-	Names    []string
-	Balances []Balance
+// Client represents a single integrator with the coinop service, for example an
+// API client, a gui client or the cli client.
+type Client struct {
+	ID string
 }
 
-type Balance struct {
-	Asset  xdr.Asset
-	Amount string
+// User represents a single user of a system.
+type User struct {
+	ID        int64
+	CreatedAt time.Time
+}
+
+// IsNew returns if this user is considered "new" by the system or not. User's
+// who have a zero value ID are considered "new".
+func (u *User) IsNew() bool {
+	return u.ID == 0
 }
