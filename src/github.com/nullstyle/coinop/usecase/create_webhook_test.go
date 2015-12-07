@@ -3,6 +3,8 @@ package usecase_test
 import (
 	"errors"
 
+	"github.com/nullstyle/coinop/entity"
+	"github.com/nullstyle/coinop/fake"
 	. "github.com/nullstyle/coinop/usecase"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -11,6 +13,7 @@ import (
 var _ = Describe("CreateWebhook", func() {
 	var (
 		subject CreateWebhook
+		input   entity.Webhook
 		repo    WebhookRepository
 		output  RepoID
 		err     error
@@ -18,11 +21,12 @@ var _ = Describe("CreateWebhook", func() {
 
 	JustBeforeEach(func() {
 		subject = CreateWebhook{repo}
-		output, err = subject.Exec()
+		output, err = subject.Exec(input)
 	})
 
 	Context("a working repo", func() {
 		BeforeEach(func() {
+			input = fake.WebhookEntity()
 			repo = &mockWebhookRepository{}
 		})
 
@@ -37,10 +41,23 @@ var _ = Describe("CreateWebhook", func() {
 			id := repo.Items[0].ID.(*RepoID)
 			Expect(*id).To(Equal(output))
 		})
+
+		Context("an invalid webhook", func() {
+			BeforeEach(func() {
+				input.DestinationFilter = ""
+			})
+
+			It("errors", func() {
+				msg := "failed to create webhook (validate): " +
+					"invalid webhook: bad destination filter"
+				Expect(err).To(MatchError(msg))
+			})
+		})
 	})
 
 	Context("an erroring repo", func() {
 		BeforeEach(func() {
+			input = fake.WebhookEntity()
 			repo = &mockWebhookRepository{
 				Err: errors.New("error"),
 			}
@@ -56,6 +73,7 @@ var _ = Describe("CreateWebhook", func() {
 
 	Context("a repo that silently does not save the user", func() {
 		BeforeEach(func() {
+			input = fake.WebhookEntity()
 			repo = &mockWebhookRepository{NoSave: true}
 		})
 

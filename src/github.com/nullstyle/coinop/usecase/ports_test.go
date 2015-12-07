@@ -5,6 +5,23 @@ import (
 	. "github.com/nullstyle/coinop/usecase"
 )
 
+type mockPaymentRepository struct {
+	Cursor string
+	Err    error
+}
+
+func (repo *mockPaymentRepository) SaveCursor(cursor string) error {
+	if repo.Err != nil {
+		return repo.Err
+	}
+	repo.Cursor = cursor
+	return nil
+}
+
+func (repo *mockPaymentRepository) LoadCursor() (string, error) {
+	return repo.Cursor, repo.Err
+}
+
 type mockWebhookRepository struct {
 	Items  []entity.Webhook
 	Err    error
@@ -43,6 +60,7 @@ func (repo *mockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
 }
 
 // ensure interface fulfillment
+var _ PaymentRepository = &mockPaymentRepository{}
 var _ WebhookRepository = &mockWebhookRepository{}
 
 // var _ DeliveryRepository = &mockDeliveryRepository{}

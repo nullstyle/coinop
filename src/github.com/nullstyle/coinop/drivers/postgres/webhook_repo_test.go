@@ -1,11 +1,9 @@
 package postgres_test
 
 import (
-	// "errors"
-	"net/url"
-
 	. "github.com/nullstyle/coinop/drivers/postgres"
 	"github.com/nullstyle/coinop/entity"
+	"github.com/nullstyle/coinop/fake"
 	"github.com/nullstyle/coinop/usecase"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -20,8 +18,7 @@ var _ = Describe("*postgres.Driver as WebrookRepository", func() {
 			err     error
 		)
 		JustBeforeEach(func() {
-			input.URL, err = url.Parse("http://localhost:3000")
-			Expect(err).To(BeNil())
+			input = fake.WebhookEntity()
 			subject = &Driver{DB: db}
 			err = subject.SaveWebhook(&input)
 		})
@@ -34,9 +31,16 @@ var _ = Describe("*postgres.Driver as WebrookRepository", func() {
 				Expect(id.T).To(Equal("webhook"))
 				Expect(id.V).To(Equal(int64(1)))
 			})
+
+			PIt("inserts a row")
 		})
-		Context("an existing webhook", func() {})
-		Context("an erroring db", func() {})
+		Context("an existing webhook", func() {
+			PIt("updates the row")
+		})
+
+		Context("an erroring db", func() {
+			PIt("errors")
+		})
 
 	})
 })

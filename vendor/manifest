@@ -8,6 +8,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/agl/ed25519",
+			"repository": "https://github.com/agl/ed25519",
+			"revision": "278e1ec8e8a6e017cd07577924d6766039146ced",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/armon/consul-api",
 			"repository": "https://github.com/armon/consul-api",
 			"revision": "dcfedd50ed5334f96adee43fc88518a4f095e15c",
@@ -45,6 +51,12 @@
 			"revision": "221834dcb89c96e4b057ed8bb878bfe569dfacf4",
 			"branch": "master",
 			"path": "/proto"
+		},
+		{
+			"importpath": "github.com/icrowley/fake",
+			"repository": "https://github.com/icrowley/fake",
+			"revision": "84bff6d01560fb0b5a396ba29534e93fd00d09c6",
+			"branch": "master"
 		},
 		{
 			"importpath": "github.com/inconshreveable/mousetrap",
@@ -161,6 +173,27 @@
 			"revision": "c8f1db727dfab151b053812d5bbdb584bf56e4af",
 			"branch": "master",
 			"path": "/crc16"
+		},
+		{
+			"importpath": "github.com/stellar/go-stellar-base/hash",
+			"repository": "https://github.com/stellar/go-stellar-base",
+			"revision": "c8f1db727dfab151b053812d5bbdb584bf56e4af",
+			"branch": "master",
+			"path": "/hash"
+		},
+		{
+			"importpath": "github.com/stellar/go-stellar-base/keypair",
+			"repository": "https://github.com/stellar/go-stellar-base",
+			"revision": "c8f1db727dfab151b053812d5bbdb584bf56e4af",
+			"branch": "master",
+			"path": "/keypair"
+		},
+		{
+			"importpath": "github.com/stellar/go-stellar-base/network",
+			"repository": "https://github.com/stellar/go-stellar-base",
+			"revision": "c8f1db727dfab151b053812d5bbdb584bf56e4af",
+			"branch": "master",
+			"path": "/network"
 		},
 		{
 			"importpath": "github.com/stellar/go-stellar-base/strkey",

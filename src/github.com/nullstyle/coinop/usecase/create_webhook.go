@@ -6,6 +6,8 @@ import (
 	"github.com/nullstyle/coinop/entity"
 )
 
+// CreateWebhook creates a webhook, which will later trigger deliveries from
+// matching payments that occur on a digital payment network.
 type CreateWebhook struct {
 	DB WebhookRepository
 }
@@ -13,6 +15,13 @@ type CreateWebhook struct {
 // Exec runs the use case.
 func (kase *CreateWebhook) Exec(hook entity.Webhook) (uid RepoID, err error) {
 	hook.ID = &RepoID{}
+
+	err = hook.Valid()
+	if err != nil {
+		err = &CreateWebhookError{Step: "validate", Child: err}
+		return
+	}
+
 	err = kase.DB.SaveWebhook(&hook)
 	if err != nil {
 		err = &CreateWebhookError{Step: "repo", Child: err}
@@ -30,6 +39,8 @@ func (kase *CreateWebhook) Exec(hook entity.Webhook) (uid RepoID, err error) {
 	return
 }
 
+// CreateWebhookError represents a failure to save a webhook into persistent
+// storage.
 type CreateWebhookError struct {
 	Step  string
 	Child error
