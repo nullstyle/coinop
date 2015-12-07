@@ -1,38 +1,59 @@
 package entity
 
 import (
+	"github.com/shopspring/decimal"
+	"net/url"
 	"time"
 )
 
-// Account represents a single named account.
-type Account struct {
-	ID   AccountID
-	Name string
+// AccountID is a stellar account id
+type AccountID string
 
-	CreatedAt time.Time
+// Amount represents a fixed quantity
+type Amount decimal.Decimal
+
+// Asset represents an asset on the stellar network
+type Asset struct {
+	Type   string
+	Code   string
+	Issuer string
 }
 
-// AccountID represents a durable identifier for an account
-type AccountID int64
-
-// Client represents a single integrator with the coinop service, for example an
-// API client, a gui client or the cli client.
-type Client struct {
-	ID string
+// Delivery represents a delivery of a payment to a specific url and state
+// information.
+type Delivery struct {
+	ID
+	URL          *url.URL
+	Payment      Payment
+	StartedAt    time.Time
+	LastFailedAt time.Time
+	SucceededAt  time.Time
 }
 
-// User represents a single user of a system.
-type User struct {
-	ID UserID
-
-	CreatedAt time.Time
+// Memo represents a memo attached to a stellar transaction
+type Memo struct {
+	Type  string
+	Value string
 }
 
-// IsNew returns if this user is considered "new" by the system or not. User's
-// who have a zero value ID are considered "new".
-func (u *User) IsNew() bool {
-	return u.ID == 0
+// OperationID represents an ID for an operation on the stellar network.
+type OperationID string
+
+// Payment represents a single payment that occurred on the
+type Payment struct {
+	ID     OperationID
+	From   AccountID
+	To     AccountID
+	Memo   Memo
+	Asset  Asset
+	Amount Amount
 }
 
-// UserID represents a durable identifier for an user
-type UserID int64
+// Webhook represents the desire to have an http request made when a payment
+// occurs on the stellar network that matches a configured filter.
+type Webhook struct {
+	ID
+	URL               *url.URL
+	DestinationFilter string
+	MemoFilter        *Memo
+}

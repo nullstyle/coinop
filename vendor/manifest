@@ -114,6 +114,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/shopspring/decimal",
+			"repository": "https://github.com/shopspring/decimal",
+			"revision": "9995dc92ee7e30b8567b1e9f192459c16f327e12",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/shurcooL/sanitized_anchor_name",
 			"repository": "https://github.com/shurcooL/sanitized_anchor_name",
 			"revision": "10ef21a441db47d8b13ebcc5fd2310f636973c77",

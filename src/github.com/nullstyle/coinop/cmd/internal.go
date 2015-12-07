@@ -8,11 +8,21 @@ import (
 	"github.com/jmoiron/sqlx"
 	// postgres driver
 	_ "github.com/lib/pq"
+	"github.com/nullstyle/coinop/drivers/console"
+	"github.com/nullstyle/coinop/drivers/editor"
+	"github.com/nullstyle/coinop/drivers/horizon"
+	"github.com/nullstyle/coinop/drivers/postgres"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var injector inject.Graph
+var drivers struct {
+	DB      postgres.Driver
+	Horizon horizon.Driver
+	Editor  editor.Driver
+	Console console.Driver
+}
 
 func fail(args ...interface{}) {
 	fmt.Fprintln(os.Stderr, args...)
@@ -28,10 +38,12 @@ func init() {
 
 	// build command tree
 	Root.AddCommand(db)
-	Root.AddCommand(account)
+	Root.AddCommand(webhook)
 	db.AddCommand(dbInit)
-	account.AddCommand(openAccount)
-	account.AddCommand(closeAccount)
+	webhook.AddCommand(createWebhook)
+	webhook.AddCommand(destroyWebhook)
+	webhook.AddCommand(editWebhook)
+	webhook.AddCommand(listWebhooks)
 
 }
 
@@ -41,11 +53,23 @@ func initInjector(cmd *cobra.Command, args []string) {
 		fail(err)
 	}
 
+	mustProvide(inject.Object{Value: &drivers.DB})
+	mustProvide(inject.Object{Value: &drivers.Horizon})
+	mustProvide(inject.Object{Value: &drivers.Console})
+	mustProvide(inject.Object{Value: &drivers.Editor})
 	mustProvide(inject.Object{Value: db})
 	mustProvide(inject.Object{
 		Name:  "postgres-url",
 		Value: viper.GetString("postgres-url"),
 	})
+	mustProvide(inject.Object{
+		Name:  "horizon-url",
+		Value: viper.GetString("horizon-url"),
+	})
+
+	if err := injector.Populate(); err != nil {
+		fail(err)
+	}
 }
 
 func mustProvide(val inject.Object) {

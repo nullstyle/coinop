@@ -5,25 +5,44 @@ import (
 	. "github.com/nullstyle/coinop/usecase"
 )
 
-type mockUserRepository struct {
-	Users  []entity.User
+type mockWebhookRepository struct {
+	Items  []entity.Webhook
 	Err    error
 	NoSave bool
 }
 
-func (repo *mockUserRepository) CreateUser(user *entity.User) error {
-	if repo.NoSave {
-		return nil
-	}
-
+func (repo *mockWebhookRepository) SaveWebhook(hook *entity.Webhook) error {
 	if repo.Err != nil {
 		return repo.Err
 	}
 
-	user.ID = entity.UserID(len(repo.Users) + 1)
-	repo.Users = append(repo.Users, *user)
+	if repo.NoSave {
+		return nil
+	}
+
+	if hook.IsNew() {
+		hook.ID = &RepoID{
+			T: "webhook",
+			V: int64(len(repo.Items) + 1),
+		}
+		repo.Items = append(repo.Items, *hook)
+	} else {
+		id := hook.ID.(*RepoID).V
+		repo.Items[id] = *hook
+	}
+
 	return nil
 }
 
-// ensure MockUserRepository conforms to UserRepository port
-var _ UserRepository = &mockUserRepository{}
+func (repo *mockWebhookRepository) DestroyWebhook(ID RepoID) error {
+	return nil
+}
+
+func (repo *mockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
+	return append([]entity.Webhook{}, repo.Items...), nil
+}
+
+// ensure interface fulfillment
+var _ WebhookRepository = &mockWebhookRepository{}
+
+// var _ DeliveryRepository = &mockDeliveryRepository{}
