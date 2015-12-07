@@ -252,6 +252,13 @@
 			"path": "/openpgp"
 		},
 		{
+			"importpath": "golang.org/x/net/context",
+			"repository": "https://go.googlesource.com/net",
+			"revision": "d5cd7348bfebdf7dbb6dbb18fa488525f9024293",
+			"branch": "master",
+			"path": "/context"
+		},
+		{
 			"importpath": "gopkg.in/fsnotify.v1",
 			"repository": "https://gopkg.in/fsnotify.v1",
 			"revision": "2cdd39bd6129c6a49c74fb07fb9d77ba1271c572",
