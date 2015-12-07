@@ -60,7 +60,11 @@ func (repo *mockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
 }
 
 // ensure interface fulfillment
-var _ PaymentRepository = &mockPaymentRepository{}
-var _ WebhookRepository = &mockWebhookRepository{}
-
 // var _ DeliveryRepository = &mockDeliveryRepository{}
+// var _  DeliverySender = &mockDeliverySender{}
+
+// var _  PaymentProvider = &mockPaymentProvider{}
+var _ PaymentRepository = &mockPaymentRepository{}
+
+// var _ WebhookPresenter = &mockWebhookPresenter{}
+var _ WebhookRepository = &mockWebhookRepository{}
