@@ -36,17 +36,14 @@ type Memo struct {
 	Value string
 }
 
-// OperationID represents an ID for an operation on the stellar network.
-type OperationID string
-
 // Payment represents a single payment that occurred on the
 type Payment struct {
-	ID     OperationID
-	From   AccountID
-	To     AccountID
-	Memo   Memo
-	Asset  Asset
-	Amount Amount
+	PagingToken string
+	From        AccountID
+	To          AccountID
+	Memo        Memo
+	Asset       Asset
+	Amount      Amount
 }
 
 // Webhook represents the desire to have an http request made when a payment
