@@ -8,6 +8,10 @@ import (
 // DeliveryRepository tracks delivery state in persistent storage and
 // coordinates updates to that state.
 type DeliveryRepository interface {
+	// SaveDeliveries saves a batch of deliveries into the repository for later
+	// processing.
+	SaveDeliveries([]entity.Delivery) error
+
 	// StartDelivery indicates to the repository that the caller wants to perform
 	// the provided delivery.  An implementation should ensure that the token
 	// returned will authorize an update to the delivery during a window of
