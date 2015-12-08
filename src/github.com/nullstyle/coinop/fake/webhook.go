@@ -21,6 +21,6 @@ func WebhookEntity() (result entity.Webhook) {
 		panic(err)
 	}
 
-	result.DestinationFilter = kp.Address()
+	result.DestinationFilter = entity.AccountID(kp.Address())
 	return
 }

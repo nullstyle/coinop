@@ -51,6 +51,6 @@ type Payment struct {
 type Webhook struct {
 	ID
 	URL               *url.URL
-	DestinationFilter string
+	DestinationFilter AccountID
 	MemoFilter        *Memo
 }

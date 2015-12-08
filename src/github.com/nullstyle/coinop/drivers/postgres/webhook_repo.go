@@ -62,7 +62,7 @@ func (db *Driver) insertWebhook(hook *entity.Webhook) error {
 
 	err := db.DB.Get(&id, Queries.Webhook.Insert,
 		hook.URL.String(),
-		hook.DestinationFilter,
+		string(hook.DestinationFilter),
 		mtf,
 		mf,
 		time.Now().UTC(),

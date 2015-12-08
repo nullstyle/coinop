@@ -13,7 +13,7 @@ func (hook *Webhook) Entity() (result entity.Webhook, err error) {
 		return
 	}
 
-	result.DestinationFilter = hook.DestinationFilter
+	result.DestinationFilter = entity.AccountID(hook.DestinationFilter)
 
 	if hook.MemoTypeFilter != "" {
 		result.MemoFilter = &entity.Memo{
