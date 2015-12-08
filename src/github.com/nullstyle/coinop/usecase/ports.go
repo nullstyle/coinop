@@ -8,9 +8,14 @@ import (
 // DeliveryRepository tracks delivery state in persistent storage and
 // coordinates updates to that state.
 type DeliveryRepository interface {
+
+	// Load cursor loads the last processed payment id, suitable for use
+	// in a call to PaymentProvider#StreamPayments.
+	LoadCursor() (string, error)
+
 	// SaveDeliveries saves a batch of deliveries into the repository for later
 	// processing.
-	SaveDeliveries([]entity.Delivery) error
+	SaveDeliveries(cursor string, d []entity.Delivery) error
 
 	// StartDelivery indicates to the repository that the caller wants to perform
 	// the provided delivery.  An implementation should ensure that the token
@@ -41,12 +46,6 @@ type PaymentHandler func(entity.Payment) error
 // PaymentProvider streams payments into the system
 type PaymentProvider interface {
 	StreamPayments(cursor string, fn PaymentHandler) error
-}
-
-// PaymentRepository saves the last seen cursor from a PaymentProvider
-type PaymentRepository interface {
-	SaveCursor(string) error
-	LoadCursor() (string, error)
 }
 
 // WebhookPresenter displays webhooks

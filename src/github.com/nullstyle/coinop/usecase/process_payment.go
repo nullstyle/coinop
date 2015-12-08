@@ -31,7 +31,7 @@ func (kase *ProcessPayment) Exec(p entity.Payment) (err error) {
 		ds = append(ds, d)
 	}
 
-	err = kase.Deliveries.SaveDeliveries(ds)
+	err = kase.Deliveries.SaveDeliveries(p.PagingToken, ds)
 	if err != nil {
 		return
 	}

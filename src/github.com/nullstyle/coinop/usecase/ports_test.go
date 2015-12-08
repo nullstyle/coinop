@@ -36,20 +36,25 @@ func (p *mockPaymentProvider) StreamPayments(
 	return nil
 }
 
-type mockPaymentRepository struct {
+type mockDeliveryRepository struct {
 	Cursor string
 	Err    error
 }
 
-func (repo *mockPaymentRepository) SaveCursor(cursor string) error {
+func (repo *mockPaymentRepository) SaveDeliveries(
+	cursor string,
+	ds []entity.Delivery,
+) error {
 	if repo.Err != nil {
 		return repo.Err
 	}
+
 	repo.Cursor = cursor
+	//TODO: dave deliveries
 	return nil
 }
 
-func (repo *mockPaymentRepository) LoadCursor() (string, error) {
+func (repo *mockDeliveryRepository) LoadCursor() (string, error) {
 	return repo.Cursor, repo.Err
 }
 
@@ -105,11 +110,10 @@ func (repo *mockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
 }
 
 // ensure interface fulfillment
-// var _ DeliveryRepository = &mockDeliveryRepository{}
+var _ DeliveryRepository = &mockDeliveryRepository{}
 var _ DeliverySender = &mockDeliverySender{}
 
 var _ PaymentProvider = &mockPaymentProvider{}
-var _ PaymentRepository = &mockPaymentRepository{}
 
 var _ WebhookPresenter = &mockWebhookPresenter{}
 var _ WebhookRepository = &mockWebhookRepository{}
