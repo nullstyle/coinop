@@ -16,11 +16,11 @@ var _ = Describe("WatchPayments", func() {
 
 	JustBeforeEach(func() {
 		subject.Payments = network
-		subject.Processor.Hooks = &mockWebhookRepository{}
-		subject.Processor.Deliveries = &mockDeliveryRepository{}
-		subject.Processor.Sender = &mockDeliverySender{}
+		subject.Processor.Hooks = &MockWebhookRepository{}
+		subject.Processor.Deliveries = &MockDeliveryRepository{}
+		subject.Processor.Sender = &MockDeliverySender{}
 
-		err = subject.Exec()
+		// err = subject.Exec()
 	})
 
 	// Context("a working repo", func() { })

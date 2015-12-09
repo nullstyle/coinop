@@ -1,119 +1,213 @@
 package usecase_test
 
-import (
-	"github.com/nullstyle/coinop/entity"
-	. "github.com/nullstyle/coinop/usecase"
-)
+import "github.com/nullstyle/coinop/entity"
+import "github.com/stretchr/testify/mock"
+import "time"
 
-type mockDeliverySender struct {
-	Err error
+type MockDeliveryRepository struct {
+	mock.Mock
 }
 
-func (send *mockDeliverySender) SendDelivery(entity.Delivery) error {
-	return send.Err
-}
+func (_m *MockDeliveryRepository) LoadCursor() (string, error) {
+	ret := _m.Called()
 
-type mockPaymentProvider struct {
-	Queue []entity.Payment
-	Err   error
-}
-
-func (p *mockPaymentProvider) StreamPayments(
-	_ string,
-	fn PaymentHandler,
-) error {
-	if p.Err != nil {
-		return p.Err
-	}
-
-	for _, p := range p.Queue {
-		err := fn(p)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-type mockDeliveryRepository struct {
-	Cursor string
-	Err    error
-}
-
-func (repo *mockPaymentRepository) SaveDeliveries(
-	cursor string,
-	ds []entity.Delivery,
-) error {
-	if repo.Err != nil {
-		return repo.Err
-	}
-
-	repo.Cursor = cursor
-	//TODO: dave deliveries
-	return nil
-}
-
-func (repo *mockDeliveryRepository) LoadCursor() (string, error) {
-	return repo.Cursor, repo.Err
-}
-
-type mockWebhookPresenter struct {
-	Seen []entity.Webhook
-	Err  error
-}
-
-func (p *mockWebhookPresenter) List(hooks []entity.Webhook) error {
-	if p.Err != nil {
-		return p.Err
-	}
-
-	p.Seen = append(p.Seen, hooks...)
-	return nil
-}
-
-type mockWebhookRepository struct {
-	Items  []entity.Webhook
-	Err    error
-	NoSave bool
-}
-
-func (repo *mockWebhookRepository) SaveWebhook(hook *entity.Webhook) error {
-	if repo.Err != nil {
-		return repo.Err
-	}
-
-	if repo.NoSave {
-		return nil
-	}
-
-	if hook.IsNew() {
-		hook.ID = &RepoID{
-			T: "webhook",
-			V: int64(len(repo.Items) + 1),
-		}
-		repo.Items = append(repo.Items, *hook)
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
 	} else {
-		id := hook.ID.(*RepoID).V
-		repo.Items[id] = *hook
+		r0 = ret.Get(0).(string)
 	}
 
-	return nil
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+func (_m *MockDeliveryRepository) SaveDeliveries(cursor string, d []entity.Delivery) error {
+	ret := _m.Called(cursor, d)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, []entity.Delivery) error); ok {
+		r0 = rf(cursor, d)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+func (_m *MockDeliveryRepository) StartDelivery(_a0 entity.Delivery) (int64, time.Time, error) {
+	ret := _m.Called(_a0)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(entity.Delivery) int64); ok {
+		r0 = rf(_a0)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	var r1 time.Time
+	if rf, ok := ret.Get(1).(func(entity.Delivery) time.Time); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Get(1).(time.Time)
+	}
+
+	var r2 error
+	if rf, ok := ret.Get(2).(func(entity.Delivery) error); ok {
+		r2 = rf(_a0)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+func (_m *MockDeliveryRepository) MarkDeliverySuccess(token int64, delivery entity.Delivery) error {
+	ret := _m.Called(token, delivery)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int64, entity.Delivery) error); ok {
+		r0 = rf(token, delivery)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+func (_m *MockDeliveryRepository) MarkDeliveryFailed(token int64, delivery entity.Delivery) error {
+	ret := _m.Called(token, delivery)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int64, entity.Delivery) error); ok {
+		r0 = rf(token, delivery)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+func (_m *MockDeliveryRepository) FailedDeliveries() ([]entity.Delivery, error) {
+	ret := _m.Called()
+
+	var r0 []entity.Delivery
+	if rf, ok := ret.Get(0).(func() []entity.Delivery); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Delivery)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
-func (repo *mockWebhookRepository) DestroyWebhook(ID RepoID) error {
-	return nil
+type MockDeliverySender struct {
+	mock.Mock
 }
 
-func (repo *mockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
-	return append([]entity.Webhook{}, repo.Items...), nil
+func (_m *MockDeliverySender) SendDelivery(_a0 entity.Delivery) error {
+	ret := _m.Called(_a0)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(entity.Delivery) error); ok {
+		r0 = rf(_a0)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
-// ensure interface fulfillment
-var _ DeliveryRepository = &mockDeliveryRepository{}
-var _ DeliverySender = &mockDeliverySender{}
+type MockPaymentProvider struct {
+	mock.Mock
+}
 
-var _ PaymentProvider = &mockPaymentProvider{}
+func (_m *MockPaymentProvider) StreamPayments(cursor string, fn PaymentHandler) error {
+	ret := _m.Called(cursor, fn)
 
-var _ WebhookPresenter = &mockWebhookPresenter{}
-var _ WebhookRepository = &mockWebhookRepository{}
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, PaymentHandler) error); ok {
+		r0 = rf(cursor, fn)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+type MockWebhookPresenter struct {
+	mock.Mock
+}
+
+func (_m *MockWebhookPresenter) List(_a0 []entity.Webhook) error {
+	ret := _m.Called(_a0)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func([]entity.Webhook) error); ok {
+		r0 = rf(_a0)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+type MockWebhookRepository struct {
+	mock.Mock
+}
+
+func (_m *MockWebhookRepository) SaveWebhook(_a0 *entity.Webhook) error {
+	ret := _m.Called(_a0)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*entity.Webhook) error); ok {
+		r0 = rf(_a0)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+func (_m *MockWebhookRepository) DestroyWebhook(ID RepoID) error {
+	ret := _m.Called(ID)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(RepoID) error); ok {
+		r0 = rf(ID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+func (_m *MockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
+	ret := _m.Called()
+
+	var r0 []entity.Webhook
+	if rf, ok := ret.Get(0).(func() []entity.Webhook); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Webhook)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
