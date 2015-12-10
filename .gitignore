@@ -2,4 +2,5 @@
 /pkg
 /dist
 /vendor/src
+/vendor/pkg
 .DS_Store

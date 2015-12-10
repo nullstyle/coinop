@@ -1,5 +1,6 @@
 package usecase_test
 
+import . "github.com/nullstyle/coinop/usecase"
 import "github.com/nullstyle/coinop/entity"
 import "github.com/stretchr/testify/mock"
 import "time"

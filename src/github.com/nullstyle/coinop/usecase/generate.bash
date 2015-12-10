@@ -7,6 +7,7 @@ set -e
 #      to hack up its output.
 
 echo "package usecase_test" > ports_test.go
+echo "import  . \"github.com/nullstyle/coinop/usecase\"" >> ports_test.go
 
 mockery -inpkg -all -print | grep import | sort | uniq >> ports_test.go
 mockery -inpkg -all -print | grep -v -E "import|package" >> ports_test.go

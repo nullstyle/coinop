@@ -19,46 +19,25 @@ var _ = Describe("CreateWebhook", func() {
 		err     error
 	)
 
+	BeforeEach(func() {
+		repo = &MockWebhookRepository{}
+		input = fake.WebhookEntity()
+	})
+
 	JustBeforeEach(func() {
 		subject = CreateWebhook{repo}
 		output, err = subject.Exec(input)
 	})
 
 	Context("a working repo", func() {
-		BeforeEach(func() {
-			input = fake.WebhookEntity()
-			repo = &mockWebhookRepository{}
-		})
-
-		It("outputs 1", func() {
-			Expect(output.V).To(Equal(int64(1)))
+		It("succeeds", func() {
 			Expect(err).To(BeNil())
-		})
-
-		It("records the user on the repo", func() {
-			repo := repo.(*mockWebhookRepository)
-			Expect(repo.Items).To(HaveLen(1))
-			id := repo.Items[0].ID.(*RepoID)
-			Expect(*id).To(Equal(output))
-		})
-
-		Context("an invalid webhook", func() {
-			BeforeEach(func() {
-				input.DestinationFilter = ""
-			})
-
-			It("errors", func() {
-				msg := "failed to create webhook (validate): " +
-					"invalid webhook: bad destination filter"
-				Expect(err).To(MatchError(msg))
-			})
 		})
 	})
 
 	Context("an erroring repo", func() {
 		BeforeEach(func() {
-			input = fake.WebhookEntity()
-			repo = &mockWebhookRepository{
+			repo = &MockWebhookRepository{
 				Err: errors.New("error"),
 			}
 		})
@@ -72,11 +51,6 @@ var _ = Describe("CreateWebhook", func() {
 	})
 
 	Context("a repo that silently does not save the user", func() {
-		BeforeEach(func() {
-			input = fake.WebhookEntity()
-			repo = &mockWebhookRepository{NoSave: true}
-		})
-
 		It("errors", func() {
 			Expect(err).To(MatchError("failed to create webhook (repo)"))
 		})
