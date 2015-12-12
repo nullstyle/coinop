@@ -11,6 +11,7 @@ import (
 	"github.com/nullstyle/coinop/drivers/console"
 	"github.com/nullstyle/coinop/drivers/editor"
 	"github.com/nullstyle/coinop/drivers/horizon"
+	"github.com/nullstyle/coinop/drivers/http"
 	"github.com/nullstyle/coinop/drivers/postgres"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -22,6 +23,7 @@ var drivers struct {
 	Horizon horizon.Driver
 	Editor  editor.Driver
 	Console console.Driver
+	HTTP    http.Driver
 }
 
 func fail(args ...interface{}) {
@@ -39,6 +41,7 @@ func init() {
 	// build command tree
 	Root.AddCommand(db)
 	Root.AddCommand(webhook)
+	Root.AddCommand(serve)
 	db.AddCommand(dbInit)
 	webhook.AddCommand(createWebhook)
 	webhook.AddCommand(destroyWebhook)
@@ -57,6 +60,7 @@ func initInjector(cmd *cobra.Command, args []string) {
 	mustProvide(inject.Object{Value: &drivers.Horizon})
 	mustProvide(inject.Object{Value: &drivers.Console})
 	mustProvide(inject.Object{Value: &drivers.Editor})
+	mustProvide(inject.Object{Value: &drivers.HTTP})
 	mustProvide(inject.Object{Value: db})
 	mustProvide(inject.Object{
 		Name:  "postgres-url",
