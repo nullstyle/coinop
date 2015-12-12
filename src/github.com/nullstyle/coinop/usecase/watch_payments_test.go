@@ -11,7 +11,7 @@ var _ = Describe("WatchPayments", func() {
 	var (
 		subject WatchPayments
 		network PaymentProvider
-		err     error
+		// err     error
 	)
 
 	JustBeforeEach(func() {
