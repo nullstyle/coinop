@@ -12,5 +12,10 @@ func PaymentEntity() (result entity.Payment) {
 	result.Asset = entity.Asset{Type: "native"}
 	result.Memo = entity.Memo{Type: "none"}
 	result.Amount = entity.MustParseAmount("1.123")
+
+	if err := result.Valid(); err != nil {
+		panic(err)
+	}
+
 	return
 }

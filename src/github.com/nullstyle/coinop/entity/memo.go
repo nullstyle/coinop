@@ -11,6 +11,7 @@ func (m *Memo) Valid() error {
 		if m.Value != "" {
 			return errors.New("invlid memo: `none` type can't have value")
 		}
+		return nil
 	case "text", "id", "hash", "return":
 		return nil
 	}

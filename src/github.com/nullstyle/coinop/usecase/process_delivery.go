@@ -1,9 +1,11 @@
 package usecase
 
 import (
+	"errors"
+	"time"
+
 	"github.com/nullstyle/coinop/entity"
 	"golang.org/x/net/context"
-	"time"
 )
 
 // ProcessDelivery attempts to perform the delivery/
@@ -25,6 +27,11 @@ func (kase *ProcessDelivery) Exec(
 	ctx context.Context,
 	d entity.Delivery,
 ) (err error) {
+
+	err = d.Valid()
+	if err != nil {
+		return
+	}
 
 	var (
 		token    int64
@@ -51,6 +58,7 @@ func (kase *ProcessDelivery) Exec(
 		return kase.DB.MarkDeliverySuccess(token, d)
 	case <-ctx.Done():
 		// our deadline expired or we were canceled, so abandon the delivery
+		err = errors.New("deadline exceeded")
 		return
 	}
 }
