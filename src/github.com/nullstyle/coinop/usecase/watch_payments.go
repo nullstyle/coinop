@@ -8,7 +8,7 @@ import (
 // the ProcessPayment subprocess in response
 type WatchPayments struct {
 	Payments  PaymentProvider
-	Processor ProcessPayment
+	Processor paymentProcessor
 }
 
 // Exec runs the use case.
@@ -21,4 +21,8 @@ func (kase *WatchPayments) Exec(cursor string) (err error) {
 		return kase.Processor.Exec(p)
 	})
 	return
+}
+
+type paymentProcessor interface {
+	Exec(p entity.Payment) (err error)
 }

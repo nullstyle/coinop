@@ -212,3 +212,20 @@ func (_m *MockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
 
 	return r0, r1
 }
+
+type mockPaymentProcessor struct {
+	mock.Mock
+}
+
+func (_m *mockPaymentProcessor) Exec(p entity.Payment) error {
+	ret := _m.Called(p)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(entity.Payment) error); ok {
+		r0 = rf(p)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}

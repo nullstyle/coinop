@@ -1,30 +1,79 @@
 package usecase_test
 
 import (
-	// "github.com/nullstyle/coinop/entity"
+	"errors"
+
+	"github.com/nullstyle/coinop/entity"
+	"github.com/nullstyle/coinop/fake"
 	. "github.com/nullstyle/coinop/usecase"
 	. "github.com/onsi/ginkgo"
-	// . "github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
+	"github.com/stretchr/testify/mock"
 )
 
 var _ = Describe("WatchPayments", func() {
 	var (
-		subject WatchPayments
-		network PaymentProvider
-		// err     error
+		stream *MockPaymentProvider
+		proc   *mockPaymentProcessor
+		cursor string
+		err    error
 	)
 
-	JustBeforeEach(func() {
-		subject.Payments = network
-		subject.Processor.Hooks = &MockWebhookRepository{}
-		subject.Processor.Deliveries = &MockDeliveryRepository{}
-		subject.Processor.Sender = &MockDeliverySender{}
-
-		// err = subject.Exec()
+	BeforeEach(func() {
+		cursor = "now"
+		stream = &MockPaymentProvider{}
+		proc = &mockPaymentProcessor{}
 	})
 
-	// Context("a working repo", func() { })
-	// Context("an erroring repo", func() {})
+	JustBeforeEach(func() {
+		subject := &WatchPayments{stream, proc}
+		err = subject.Exec(cursor)
+	})
 
-	PIt("saves the last seen paging token into the ")
+	Context("no payments seen", func() {
+		BeforeEach(func() {
+			stream.On("StreamPayments", cursor, mock.Anything).Return(nil)
+		})
+
+		It("succeeds", func() {
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Context("an error occurs prior to any emitted payments", func() {
+		BeforeEach(func() {
+			stream.
+				On("StreamPayments", cursor, mock.Anything).
+				Return(errors.New("boom"))
+		})
+
+		It("fails", func() {
+			Expect(err).To(MatchError("boom"))
+		})
+	})
+
+	Context("several payments are seen", func() {
+		BeforeEach(func() {
+			payments := []entity.Payment{fake.PaymentEntity(), fake.PaymentEntity()}
+
+			stream.
+				On("StreamPayments", cursor, mock.Anything).
+				Return(nil).
+				Run(func(
+				args mock.Arguments,
+			) {
+				fn := args.Get(1).(PaymentHandler)
+				fn(payments[0])
+				fn(payments[1])
+			})
+
+			proc.On("Exec", payments[0]).Return(nil)
+			proc.On("Exec", payments[1]).Return(nil)
+		})
+
+		It("succeeds", func() {
+			Expect(err).To(BeNil())
+		})
+	})
+
 })

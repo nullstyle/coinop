@@ -5,7 +5,9 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-// VerifyMock asserts the expectations on `m`.
-func VerifyMock(m mock.Mock) {
-	m.AssertExpectations(ginkgo.GinkgoT())
+// VerifyMock asserts the expectations on each of `ms`.
+func VerifyMock(ms ...mock.Mock) {
+	for _, m := range ms {
+		m.AssertExpectations(ginkgo.GinkgoT())
+	}
 }
