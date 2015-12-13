@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"log"
 )
 
 var db = &cobra.Command{
@@ -17,6 +16,6 @@ var dbInit = &cobra.Command{
 	Short: "install schema",
 	Long:  "init initializes the postgres database used by coinop.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("TODO: run db migration")
+		log.Fatal(drivers.DB.MigrateSchema())
 	},
 }

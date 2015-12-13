@@ -41,6 +41,12 @@
 			"path": "/spew"
 		},
 		{
+			"importpath": "github.com/denisenkom/go-mssqldb",
+			"repository": "https://github.com/denisenkom/go-mssqldb",
+			"revision": "fda4305a1f654b663adcb5f1971b4bd7740198ce",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/facebookgo/inject",
 			"repository": "https://github.com/facebookgo/inject",
 			"revision": "d5029152fecb2a8e68f7f8eb3c6391fc8ee70496",
@@ -50,6 +56,12 @@
 			"importpath": "github.com/facebookgo/structtag",
 			"repository": "https://github.com/facebookgo/structtag",
 			"revision": "217e25fb96916cc60332e399c9aa63f5c422ceed",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/go-sql-driver/mysql",
+			"repository": "https://github.com/go-sql-driver/mysql",
+			"revision": "d512f204a577a4ab037a1816604c48c9c13210be",
 			"branch": "master"
 		},
 		{
@@ -102,6 +114,24 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/mattn/go-runewidth",
+			"repository": "https://github.com/mattn/go-runewidth",
+			"revision": "d96d1bd051f2bd9e7e43d602782b37b93b1b5666",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/mattn/go-sqlite3",
+			"repository": "https://github.com/mattn/go-sqlite3",
+			"revision": "5651a9d9d49ec25811d08220ee972080378d52ea",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/mitchellh/cli",
+			"repository": "https://github.com/mitchellh/cli",
+			"revision": "8102d0ed5ea2709ade1243798785888175f6e415",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/mitchellh/mapstructure",
 			"repository": "https://github.com/mitchellh/mapstructure",
 			"revision": "281073eb9eb092240d33ef253c404f1cca550309",
@@ -113,6 +143,12 @@
 			"revision": "0ed230ab0856542e23b068fa253a67f57f2d01eb",
 			"branch": "master",
 			"path": "/xdr3"
+		},
+		{
+			"importpath": "github.com/olekukonko/tablewriter",
+			"repository": "https://github.com/olekukonko/tablewriter",
+			"revision": "333c0610de3426f738e7ec63801cfd1883b0aeb4",
+			"branch": "master"
 		},
 		{
 			"importpath": "github.com/onsi/ginkgo",
@@ -132,6 +168,12 @@
 			"revision": "e8554b8641db39598be7f6342874b958f12ae1d4",
 			"branch": "master",
 			"path": "/difflib"
+		},
+		{
+			"importpath": "github.com/rubenv/sql-migrate",
+			"repository": "https://github.com/rubenv/sql-migrate",
+			"revision": "53184e1edfb4f9655b0fa8dd2c23e7763f452bda",
+			"branch": "master"
 		},
 		{
 			"importpath": "github.com/russross/blackfriday",
@@ -279,11 +321,25 @@
 			"path": "/cast5"
 		},
 		{
+			"importpath": "golang.org/x/crypto/md4",
+			"repository": "https://go.googlesource.com/crypto",
+			"revision": "7b85b097bf7527677d54d3220065e966a0e3b613",
+			"branch": "master",
+			"path": "/md4"
+		},
+		{
 			"importpath": "golang.org/x/crypto/openpgp",
 			"repository": "https://go.googlesource.com/crypto",
 			"revision": "7b85b097bf7527677d54d3220065e966a0e3b613",
 			"branch": "master",
 			"path": "/openpgp"
+		},
+		{
+			"importpath": "golang.org/x/crypto/ssh/terminal",
+			"repository": "https://go.googlesource.com/crypto",
+			"revision": "7b85b097bf7527677d54d3220065e966a0e3b613",
+			"branch": "master",
+			"path": "/ssh/terminal"
 		},
 		{
 			"importpath": "golang.org/x/net/context",
@@ -297,6 +353,18 @@
 			"repository": "https://gopkg.in/fsnotify.v1",
 			"revision": "2cdd39bd6129c6a49c74fb07fb9d77ba1271c572",
 			"branch": "master"
+		},
+		{
+			"importpath": "gopkg.in/gorp.v1",
+			"repository": "https://gopkg.in/gorp.v1",
+			"revision": "c87af80f3cc5036b55b83d77171e156791085e2e",
+			"branch": "master"
+		},
+		{
+			"importpath": "gopkg.in/yaml.v1",
+			"repository": "https://gopkg.in/yaml.v1",
+			"revision": "9f9df34309c04878acc86042b16630b0f696e1de",
+			"branch": "v1"
 		},
 		{
 			"importpath": "gopkg.in/yaml.v2",

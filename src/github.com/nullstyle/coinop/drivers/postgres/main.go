@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+//go:generate go-bindata -pkg postgres -o bindata.go migrations/
+
 // // Delivery represents a database row from the `deliveries` table
 // type Delivery struct {
 // 	ID   int64  `db:"id"`
