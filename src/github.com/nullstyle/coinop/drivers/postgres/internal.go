@@ -1,18 +1,15 @@
 package postgres
 
 import (
-	"github.com/rubenv/sql-migrate"
+	"github.com/lib/pq"
 )
 
-var migrations migrate.MigrationSource = &migrate.AssetMigrationSource{
-	Asset:    Asset,
-	AssetDir: AssetDir,
-	Dir:      "migrations",
-}
+// isUniqueErr returns true if the error represents a postgres
+// "unique_violation" error (code 23505)
+func isUniqueErr(err error) bool {
+	if err, ok := err.(*pq.Error); ok {
+		return err.Code == "23505"
+	}
 
-// MigrateSchema updates the schema in `db`.
-func (db *Driver) MigrateSchema() error {
-	migrate.SetSchema("coinop")
-	_, err := migrate.Exec(db.DB.DB, "postgres", migrations, migrate.Up)
-	return err
+	return false
 }

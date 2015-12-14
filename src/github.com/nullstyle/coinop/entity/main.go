@@ -10,7 +10,9 @@ import (
 type AccountID string
 
 // Amount represents a fixed quantity
-type Amount decimal.Decimal
+type Amount struct {
+	decimal.Decimal
+}
 
 // Asset represents an asset on the stellar network
 type Asset struct {

@@ -12,7 +12,7 @@ CREATE INDEX ON coinop.webhooks (url);
 
 CREATE TABLE coinop.deliveries (
     id bigserial PRIMARY KEY,
-    version int NOT NULL DEFAULT 1,
+    version bigint NOT NULL DEFAULT 1,
     url character varying(1024) NOT NULL,
 
     payment_paging_token character varying(255) NOT NULL,
@@ -33,7 +33,13 @@ CREATE TABLE coinop.deliveries (
     updated_at timestamp without time zone
 );
 
+CREATE TABLE coinop.kv (
+  key character varying(255) NOT NULL,
+  value jsonb
+);
+CREATE UNIQUE INDEX ON coinop.kv (key);
 
 -- +migrate Down
+DROP TABLE coinop.kv;
 DROP TABLE coinop.deliveries;
 DROP TABLE coinop.webhooks;

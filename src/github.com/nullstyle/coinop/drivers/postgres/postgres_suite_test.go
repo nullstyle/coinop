@@ -1,14 +1,15 @@
 package postgres_test
 
 import (
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-
-	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
+	. "github.com/nullstyle/coinop/drivers/postgres"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 func TestUsecase(t *testing.T) {
@@ -17,31 +18,19 @@ func TestUsecase(t *testing.T) {
 }
 
 var db *sqlx.DB
+var badDB *sqlx.DB
 
-const initDB = `
-	DROP TABLE IF EXISTS webhooks;
-	CREATE TABLE webhooks (
-		id 								 	bigserial,
-		url 							 	varchar(2048) NOT NULL,
-		destination_filter 	varchar(255) 	NOT NULL,
-		memo_type_filter		varchar(255),
-		memo_filter					varchar(255),
-		created_at 					timestamp without time zone
-	);
+const clearDB = `
+	DELETE FROM coinop.webhooks;
+	DELETE FROM coinop.deliveries;
+	DELETE FROM coinop.kv;
 `
 
-const clearDB = `DELETE FROM webhooks`
-
 var _ = BeforeSuite(func() {
-	url := os.Getenv("POSTGRES_URL")
-	if url == "" {
-		url = "postgres://localhost/coinop_test?sslmode=disable"
-	}
+	connectDB()
 	var err error
-	db, err = sqlx.Connect("postgres", url)
+	badDB, err = sqlx.Open("postgres", "postgres://localhost/SHOULD_NOT_EXIST?sslmode=disable")
 	Expect(err).NotTo(HaveOccurred())
-
-	execAll(initDB)
 })
 
 var _ = AfterSuite(func() {
@@ -61,4 +50,18 @@ func execAll(query string) {
 		}
 		db.MustExec(q)
 	}
+}
+
+func connectDB() {
+	url := os.Getenv("POSTGRES_URL")
+	if url == "" {
+		url = "postgres://localhost/coinop_test?sslmode=disable"
+	}
+	var err error
+	db, err = sqlx.Connect("postgres", url)
+	Expect(err).NotTo(HaveOccurred())
+
+	d := &Driver{db}
+	err = d.RebuildSchema()
+	Expect(err).NotTo(HaveOccurred())
 }

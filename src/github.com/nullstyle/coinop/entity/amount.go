@@ -7,7 +7,7 @@ import (
 // ParseAmount parses `in` into an Amount value
 func ParseAmount(in string) (ret Amount, err error) {
 	dec, err := decimal.NewFromString(in)
-	ret = Amount(dec)
+	ret = Amount{dec}
 	return
 }
 
