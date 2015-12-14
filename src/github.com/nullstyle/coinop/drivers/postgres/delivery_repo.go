@@ -46,12 +46,23 @@ func (db *Driver) SaveDeliveries(cursor string, d []entity.Delivery) error {
 // the provided delivery.  An implementation should ensure that the token
 // returned will authorize an update to the delivery during a window of
 // exclusive access to the delivery bounded by the returned deadline.
-func (db *Driver) StartDelivery(entity.Delivery) (
+func (db *Driver) StartDelivery(ent entity.Delivery) (
 	token int64,
 	deadline time.Time,
 	err error,
 ) {
-	return int64(0), time.Now(), nil
+	id := ent.ID.(*usecase.RepoID).V
+	start := time.Now()
+	deadline = start.Add(1 * time.Minute)
+
+	err = db.DB.Get(&token, Queries.Delivery.Start, start, id)
+
+	if err == sql.ErrNoRows {
+		//TODO: turn this into a well-known error of the usecase layer
+		err = errors.New("could not acquire lock")
+	}
+
+	return
 }
 
 // MarkDeliverySuccess marks the provided delivery as successfully completed.

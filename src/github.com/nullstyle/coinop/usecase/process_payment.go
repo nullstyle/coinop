@@ -17,7 +17,6 @@ type ProcessPayment struct {
 
 // Exec runs the use case.
 func (kase *ProcessPayment) Exec(p entity.Payment) (err error) {
-	log.Printf("saw payment: %#v", p)
 	hooks, err := kase.Hooks.ForDestination(p.To)
 	if err != nil {
 		return
@@ -37,9 +36,9 @@ func (kase *ProcessPayment) Exec(p entity.Payment) (err error) {
 		return
 	}
 
-	// for _, d := range ds {
-	// 	go kase.deliver(d)
-	// }
+	for _, d := range ds {
+		go kase.deliver(d)
+	}
 
 	return
 }

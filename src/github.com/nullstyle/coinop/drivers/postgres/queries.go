@@ -69,8 +69,8 @@ func init() {
 
 	Queries.Delivery.MarkFailed = `
 		UPDATE coinop.deliveries SET
-		last_failed_at = $1
-		updated_at = $1
+		last_failed_at = $1,
+		updated_at = $1,
 		version = version + 1
 		WHERE id = $2
 		AND version = $3
@@ -79,8 +79,8 @@ func init() {
 
 	Queries.Delivery.MarkSuccessful = `
 		UPDATE coinop.deliveries SET
-		succeeded_at = $1
-		updated_at = $1
+		succeeded_at = $1,
+		updated_at = $1,
 		version = version + 1
 		WHERE id = $2
 		AND version = $3
@@ -100,8 +100,8 @@ func init() {
 
 	Queries.Delivery.Start = `
 		UPDATE coinop.deliveries SET
-		started_at = $1
-		updated_at = $1
+		started_at = $1,
+		updated_at = $1,
 		version = version + 1
 		WHERE id = $2
 		AND (

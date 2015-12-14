@@ -4,6 +4,10 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+func (am Amount) String() string {
+	return am.Decimal.String()
+}
+
 // ParseAmount parses `in` into an Amount value
 func ParseAmount(in string) (ret Amount, err error) {
 	dec, err := decimal.NewFromString(in)
