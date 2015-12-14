@@ -212,6 +212,27 @@ func (_m *MockWebhookRepository) ListWebhooks() ([]entity.Webhook, error) {
 
 	return r0, r1
 }
+func (_m *MockWebhookRepository) ForDestination(dest entity.AccountID) ([]entity.Webhook, error) {
+	ret := _m.Called(dest)
+
+	var r0 []entity.Webhook
+	if rf, ok := ret.Get(0).(func(entity.AccountID) []entity.Webhook); ok {
+		r0 = rf(dest)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Webhook)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(entity.AccountID) error); ok {
+		r1 = rf(dest)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
 
 type mockPaymentProcessor struct {
 	mock.Mock

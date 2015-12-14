@@ -4,4 +4,4 @@ account :webhook, Stellar::KeyPair.from_seed("SC4S74WJSA2MKXFJ32WZ4G566PX2SBO2UG
 # GBXICIP6K4EBDYENZ6GJLWMTFOJKQXS67KLAFHSFGLS4F5WZINBU3543
 account :payer, Stellar::KeyPair.from_seed("SA6ITKWEEYFDQOXYWYB6BLXEFSBTFHDCDFRDBYZUDKU6RLZOGLJAK37H")
 
-payment :payer, :webhook, ["USD", :payer, "100"]
+trust :webhook, :payer, "USD"

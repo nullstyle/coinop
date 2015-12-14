@@ -13,6 +13,6 @@ func (row *Payment) Scan(ent entity.Payment) (err error) {
 	row.Memo.Scan(ent.Memo)
 	row.Asset.Scan(ent.Asset)
 
-	row.Amount = ent.Amount.Mul(decimal.New(10, 7)).IntPart()
+	row.Amount = ent.Amount.Mul(decimal.New(1, 7)).IntPart()
 	return
 }

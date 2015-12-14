@@ -19,23 +19,16 @@ func (db *Driver) DestroyWebhook(ID usecase.RepoID) error {
 	return err
 }
 
+// ForDestination reads all webhooks that could be triggered by `dest`
+func (db *Driver) ForDestination(
+	dest entity.AccountID,
+) ([]entity.Webhook, error) {
+	return db.selectWebhooks(Queries.Webhook.ForDestination, string(dest))
+}
+
 // ListWebhooks reads all webhooks from the database
-func (db *Driver) ListWebhooks() (result []entity.Webhook, err error) {
-	var rows []Webhook
-	err = db.DB.Select(&rows, Queries.Webhook.All)
-	if err != nil {
-		err = errors.New("corrupt webhook row: " + err.Error())
-		return
-	}
-	result = make([]entity.Webhook, len(rows))
-	for i, row := range rows {
-		result[i], err = row.Entity()
-		if err != nil {
-			err = errors.New("corrupt webhook row: " + err.Error())
-			return
-		}
-	}
-	return
+func (db *Driver) ListWebhooks() ([]entity.Webhook, error) {
+	return db.selectWebhooks(Queries.Webhook.All)
 }
 
 // SaveWebhook writes the webhook to the postgres database, updating an existing
@@ -73,6 +66,26 @@ func (db *Driver) insertWebhook(hook *entity.Webhook) error {
 
 	hook.ID = &usecase.RepoID{T: "webhook", V: id}
 	return nil
+}
+
+func (db *Driver) selectWebhooks(
+	sql string,
+	args ...interface{},
+) (result []entity.Webhook, err error) {
+	var rows []Webhook
+	err = db.DB.Select(&rows, sql, args...)
+	if err != nil {
+		return
+	}
+	result = make([]entity.Webhook, len(rows))
+	for i, row := range rows {
+		result[i], err = row.Entity()
+		if err != nil {
+			err = errors.New("corrupt webhook row: " + err.Error())
+			return
+		}
+	}
+	return
 }
 
 var _ usecase.WebhookRepository = &Driver{}

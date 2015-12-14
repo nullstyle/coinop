@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"database/sql"
 	"encoding/json"
 
 	"github.com/jmoiron/sqlx"
@@ -46,13 +47,31 @@ func (db *Driver) SaveKV(key string, in interface{}) error {
 
 // GetKV loads the value at `key` from the postgres db into `value`
 func (db *Driver) GetKV(key string, value interface{}) error {
-	var pair KV
-	err := db.DB.Get(&pair, Queries.KV.Load, key)
+	pair, err := db.getKV(key)
 	if err != nil {
 		return err
 	}
 
 	return pair.Value.Unmarshal(value)
+}
+
+func (db *Driver) getKV(key string) (pair KV, err error) {
+	err = db.DB.Get(&pair, Queries.KV.Load, key)
+	return
+}
+
+func (db *Driver) hasKV(key string) (bool, error) {
+	_, err := db.getKV(key)
+
+	if err == sql.ErrNoRows {
+		return false, nil
+	}
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 // saveKV saves a kv pair within the provided transaction
@@ -62,10 +81,16 @@ func (db *Driver) saveKV(tx *sqlx.Tx, key string, in interface{}) error {
 		return err
 	}
 
-	_, err = tx.Exec(Queries.KV.Insert, key, types.JsonText(vj))
-	if isUniqueErr(err) {
-		_, err = tx.Exec(Queries.KV.Update, key, types.JsonText(vj))
+	exists, err := db.hasKV(key)
+	if err != nil {
+		return err
 	}
+
+	sql := Queries.KV.Insert
+	if exists {
+		sql = Queries.KV.Update
+	}
+	_, err = tx.Exec(sql, key, types.JsonText(vj))
 
 	return err
 }

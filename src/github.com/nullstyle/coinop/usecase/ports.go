@@ -58,4 +58,5 @@ type WebhookRepository interface {
 	SaveWebhook(*entity.Webhook) error
 	DestroyWebhook(ID RepoID) error
 	ListWebhooks() ([]entity.Webhook, error)
+	ForDestination(dest entity.AccountID) ([]entity.Webhook, error)
 }

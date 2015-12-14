@@ -15,9 +15,10 @@ var Queries struct {
 		Start          string
 	}
 	Webhook struct {
-		All    string
-		Insert string
-		Delete string
+		All            string
+		ForDestination string
+		Insert         string
+		Delete         string
 	}
 }
 
@@ -113,6 +114,13 @@ func init() {
 	Queries.Webhook.All = `
     SELECT *
     FROM coinop.webhooks
+    ORDER BY id ASC
+  `
+
+	Queries.Webhook.ForDestination = `
+    SELECT *
+    FROM coinop.webhooks
+		WHERE destination_filter = $1
     ORDER BY id ASC
   `
 
