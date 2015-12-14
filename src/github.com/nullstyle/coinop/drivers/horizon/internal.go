@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	// "log"
 	"regexp"
 
@@ -71,16 +72,13 @@ func (p *payment) Entity() (ent entity.Payment, err error) {
 	return
 }
 
-func splitSSE(data []byte, atEOF bool) (advance int, token []byte, err error) {
-	if atEOF {
-		return 0, nil, nil
+func loadMemo(p *payment) error {
+	res, err := http.Get(p.Links.Transaction.Href)
+	if err != nil {
+		return err
 	}
-
-	if loc := endEvent.FindIndex(data); loc != nil {
-		return loc[1], data[0:loc[1]], nil
-	}
-
-	return 0, nil, nil
+	defer res.Body.Close()
+	return json.NewDecoder(res.Body).Decode(&p.Memo)
 }
 
 func parseEvent(data []byte) (result sse.Event, err error) {
@@ -97,4 +95,16 @@ func parseEvent(data []byte) (result sse.Event, err error) {
 
 	result = events[0]
 	return
+}
+
+func splitSSE(data []byte, atEOF bool) (advance int, token []byte, err error) {
+	if atEOF {
+		return 0, nil, nil
+	}
+
+	if loc := endEvent.FindIndex(data); loc != nil {
+		return loc[1], data[0:loc[1]], nil
+	}
+
+	return 0, nil, nil
 }

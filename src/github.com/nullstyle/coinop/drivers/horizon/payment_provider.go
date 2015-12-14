@@ -78,9 +78,10 @@ func (driver *Driver) readPayment(data []byte) (ent entity.Payment, err error) {
 		return
 	}
 
-	// TODO: load memo data
-	res.Memo.Type = "none"
-	res.Memo.Value = ""
+	err = loadMemo(&res)
+	if err != nil {
+		return
+	}
 
 	ent, err = res.Entity()
 	return
