@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/stellar/stellar_core_commander.git
-  revision: 37f9f6eb13c452f3cb08ba1ab62db4a5c7661389
+  revision: bcd2cb243505542befad1f8c2b2f11acdb1287be
   specs:
     stellar_core_commander (0.0.12)
       activesupport (>= 4.0.0)
@@ -10,21 +10,22 @@ GIT
       pg (~> 0.18.1)
       sequel (~> 4.21.0)
       slop (~> 3.6.0)
-      stellar-base (>= 0.6.1)
+      stellar-base (>= 0.10.0)
       typhoeus (~> 0.8.0)
 
 GEM
+  remote: https://rubygems.org/
   specs:
-    activemodel (4.2.4)
-      activesupport (= 4.2.4)
+    activemodel (4.2.5)
+      activesupport (= 4.2.5)
       builder (~> 3.1)
-    activesupport (4.2.4)
+    activesupport (4.2.5)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    backports (3.6.6)
+    backports (3.6.7)
     base32 (0.3.2)
     builder (3.2.2)
     contracts (0.12.0)
@@ -38,15 +39,15 @@ GEM
     ffi (1.9.10)
     i18n (0.7.0)
     json (1.8.3)
-    minitest (5.8.1)
+    minitest (5.8.3)
     multipart-post (2.0.0)
-    pg (0.18.3)
+    pg (0.18.4)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rbnacl (3.2.0)
       ffi
-    rbnacl-libsodium (1.0.3)
+    rbnacl-libsodium (1.0.7)
       rbnacl (~> 3.0, >= 3.0.1)
     sequel (4.21.0)
     sinatra (1.4.6)
@@ -54,7 +55,7 @@ GEM
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
-    stellar-base (0.7.0)
+    stellar-base (0.10.0)
       activesupport (~> 4)
       base32
       digest-crc
