@@ -8,11 +8,11 @@ import (
 	"github.com/jmoiron/sqlx"
 	// postgres driver
 	_ "github.com/lib/pq"
-	"github.com/nullstyle/coinop/drivers/console"
 	"github.com/nullstyle/coinop/drivers/editor"
 	"github.com/nullstyle/coinop/drivers/horizon"
 	"github.com/nullstyle/coinop/drivers/http"
 	"github.com/nullstyle/coinop/drivers/postgres"
+	"github.com/nullstyle/coinop/ui/console"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -22,8 +22,10 @@ var drivers struct {
 	DB      postgres.Driver
 	Horizon horizon.Driver
 	Editor  editor.Driver
-	Console console.Driver
 	HTTP    http.Driver
+}
+var uis struct {
+	Console console.UI
 }
 
 func fail(args ...interface{}) {
@@ -58,7 +60,7 @@ func initInjector(cmd *cobra.Command, args []string) {
 
 	mustProvide(inject.Object{Value: &drivers.DB})
 	mustProvide(inject.Object{Value: &drivers.Horizon})
-	mustProvide(inject.Object{Value: &drivers.Console})
+	mustProvide(inject.Object{Value: &uis.Console})
 	mustProvide(inject.Object{Value: &drivers.Editor})
 	mustProvide(inject.Object{Value: &drivers.HTTP})
 	mustProvide(inject.Object{Value: db})

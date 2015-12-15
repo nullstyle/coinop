@@ -79,7 +79,7 @@ var listWebhooks = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		kase := usecase.ListWebhooks{
 			DB:  &drivers.DB,
-			Out: &drivers.Console,
+			Out: &uis.Console,
 		}
 
 		if err := kase.Exec(); err != nil {

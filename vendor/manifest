@@ -320,6 +320,19 @@
 			"path": "/encoding/secconf"
 		},
 		{
+			"importpath": "goji.io",
+			"repository": "https://github.com/goji/goji",
+			"revision": "9f8871d62a1b65a39bd029cd2c1bf457cbc1d2f6",
+			"branch": "master"
+		},
+		{
+			"importpath": "goji.io/pat",
+			"repository": "https://github.com/goji/goji",
+			"revision": "9f8871d62a1b65a39bd029cd2c1bf457cbc1d2f6",
+			"branch": "master",
+			"path": "/pat"
+		},
+		{
 			"importpath": "golang.org/x/crypto/cast5",
 			"repository": "https://go.googlesource.com/crypto",
 			"revision": "7b85b097bf7527677d54d3220065e966a0e3b613",

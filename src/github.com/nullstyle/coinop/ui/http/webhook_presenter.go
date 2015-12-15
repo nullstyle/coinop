@@ -1,4 +1,4 @@
-package console
+package http
 
 import (
 	"fmt"
@@ -8,12 +8,12 @@ import (
 )
 
 // List prints entities to stdout
-func (d *Driver) List(hooks []entity.Webhook) error {
+func (ui *UI) List(hooks []entity.Webhook) error {
 	for _, hook := range hooks {
-		fmt.Printf("%s - %s\n", hook.ShortID(), hook.URL.String())
-		fmt.Printf("  %s\n", hook.DestinationFilter)
+		fmt.Fprintf(ui.W, "%s - %s\n", hook.ShortID(), hook.URL.String())
+		fmt.Fprintf(ui.W, "  %s\n", hook.DestinationFilter)
 		if hook.MemoFilter != nil {
-			fmt.Printf("  memo(%s): %s\n",
+			fmt.Fprintf(ui.W, "  memo(%s): %s\n",
 				hook.MemoFilter.Type,
 				hook.MemoFilter.Value,
 			)
@@ -23,4 +23,4 @@ func (d *Driver) List(hooks []entity.Webhook) error {
 	return nil
 }
 
-var _ usecase.WebhookPresenter = &Driver{}
+var _ usecase.WebhookPresenter = &UI{}
