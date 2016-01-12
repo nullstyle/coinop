@@ -1,5 +1,7 @@
 # Coinop - webhooks for the stellar network.
 
+**NOTE: this repo is not ready for public consumption.  it's just a testing project currently**
+
 coinop is a helper service that triggers webhooks in response to payments on the stellar network.
 
 ## Conceptual Overview
